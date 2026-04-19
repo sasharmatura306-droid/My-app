@@ -3,76 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multi Service App</title>
+    <title>Sasha Super App</title>
     <script src="https://telegram.org"></script>
     <style>
-        body { font-family: -apple-system, sans-serif; background: #f0f2f5; padding: 15px; color: #333; }
-        .page { display: none; }
+        body { font-family: -apple-system, sans-serif; background: #f0f2f5; padding: 15px; color: #333; margin: 0; }
+        .page { display: none; padding: 10px; }
         .active { display: block; }
+        h2 { text-align: center; color: #2c3e50; margin-bottom: 20px; }
+        
+        /* Кнопки меню */
         .menu-btn { 
             display: block; width: 100%; padding: 18px; margin-bottom: 12px; 
-            background: white; border-radius: 12px; text-decoration: none; 
-            color: #333; font-weight: bold; border: none; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background: white; border-radius: 15px; text-decoration: none; 
+            color: #333; font-weight: bold; border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             font-size: 16px; text-align: left;
         }
+
+        /* Сетка для кнопок */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .card { padding: 15px; border-radius: 10px; color: white; text-decoration: none; text-align: center; font-weight: bold; font-size: 14px; }
+        .card { 
+            padding: 18px; border-radius: 12px; color: white; text-decoration: none; 
+            text-align: center; font-weight: bold; font-size: 14px;
+        }
         
-        /* Цвета брендов */
-        .blue { background: #005bff; } /* Ozon */
-        .pink { background: #cb11ab; } /* WB */
-        .green { background: #00b012; } /* Kufar */
-        .orange { background: #ffcc00; color: black; } /* Onliner */
-        .dark-red { background: #e30613; } /* 21vek */
-        .action-blue { background: #0088cc; }
-        
-        .back-btn { margin-top: 20px; color: #888; border: none; background: none; width: 100%; padding: 10px; }
-        input, textarea { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ccc; margin-bottom: 10px; box-sizing: border-box; }
+        /* Цвета */
+        .ozon { background: #005bff; } .wb { background: #cb11ab; }
+        .kufar { background: #00b012; } .onliner { background: #ffcc00; color: black; }
+        .vek { background: #e30613; } .avia { background: #00a1ff; } .rzd { background: #e21a1a; }
+        .btn-blue { background: #0088cc; color: white; width: 100%; border: none; padding: 15px; border-radius: 12px; font-weight: bold; }
+
+        input, textarea { 
+            width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #ddd; 
+            margin-bottom: 15px; box-sizing: border-box; font-size: 16px;
+        }
+        .back-btn { margin-top: 25px; color: #0088cc; border: none; background: none; width: 100%; font-size: 16px; }
     </style>
 </head>
 <body>
 
     <!-- ГЛАВНОЕ МЕНЮ -->
     <div id="main-menu" class="page active">
-        <h2 style="text-align: center;">🚀 Мои Сервисы</h2>
+        <h2>🚀 Мои Сервисы</h2>
         <button class="menu-btn" onclick="showPage('tickets-page')">✈️ 1. Билеты (Авиа / ЖД)</button>
         <button class="menu-btn" onclick="window.open('https://tb.by', '_blank')">💵 2. Конвертер (Технобанк)</button>
-        <button class="menu-btn" onclick="showPage('shop-page')">🛍️ 3. Магазины (WB, 21vek, Kufar...)</button>
+        <button class="menu-btn" onclick="showPage('shop-page')">🛍️ 3. Магазины (WB, 21vek, Ozon...)</button>
         <button class="menu-btn" onclick="showPage('pc-compare')">🖥️ 4. Сравнение ПК</button>
     </div>
 
     <!-- 1. БИЛЕТЫ -->
     <div id="tickets-page" class="page">
-        <h3>Где ищем билеты?</h3>
+        <h2>Где ищем билеты?</h2>
         <div class="grid">
-            <a href="https://aviasales.ru" target="_blank" class="card action-blue">Aviasales</a>
-            <a href="https://rzd.ru" target="_blank" class="card orange" style="color: white; background: #e21a1a;">РЖД</a>
+            <a href="https://aviasales.ru" target="_blank" class="card avia">Aviasales</a>
+            <a href="https://rzd.ru" target="_blank" class="card rzd">РЖД</a>
         </div>
         <button class="back-btn" onclick="showPage('main-menu')">← Назад</button>
     </div>
 
     <!-- 3. МАГАЗИНЫ -->
     <div id="shop-page" class="page">
-        <h3>Выберите магазин</h3>
-        <input type="text" id="shopSearch" placeholder="Введите товар (напр. Наушники)" oninput="updateShopLinks()">
+        <h2>Поиск товаров</h2>
+        <input type="text" id="shopSearch" placeholder="Что ищем?" oninput="updateShopLinks()">
         <div class="grid">
-            <a id="wb" href="https://wildberries.ru" target="_blank" class="card pink">Wildberries</a>
-            <a id="vek" href="https://21vek.by" target="_blank" class="card dark-red">21vek.by</a>
-            <a id="ozon" href="https://ozon.ru" target="_blank" class="card blue">Ozon</a>
-            <a id="kufar" href="https://kufar.by" target="_blank" class="card green">Kufar</a>
-            <a id="onliner" href="https://onliner.by" target="_blank" class="card orange">Onliner</a>
+            <a id="wb" href="https://wildberries.ru" target="_blank" class="card wb">Wildberries</a>
+            <a id="vek" href="https://21vek.by" target="_blank" class="card vek">21vek.by</a>
+            <a id="ozon" href="https://ozon.ru" target="_blank" class="card ozon">Ozon</a>
+            <a id="kufar" href="https://kufar.by" target="_blank" class="card kufar">Kufar</a>
+            <a id="onliner" href="https://onliner.by" target="_blank" class="card onliner" style="grid-column: span 2;">Onliner.by</a>
         </div>
-        <p style="font-size: 12px; color: #666; margin-top: 10px;">Введите товар выше, и ссылки обновятся автоматически!</p>
         <button class="back-btn" onclick="showPage('main-menu')">← Назад</button>
     </div>
 
     <!-- 4. СРАВНЕНИЕ ПК -->
     <div id="pc-compare" class="page">
-        <h3>Сравнение комплектующих</h3>
-        <p>Напишите, что сравнить:</p>
-        <textarea id="pcInput" rows="3" placeholder="RTX 4060 или RTX 3070?"></textarea>
-        <button class="menu-btn action-blue" style="color:white; text-align:center" onclick="comparePC()">Узнать, что лучше</button>
-        <div id="pcResult" style="margin-top:15px; font-size:14px; background:white; padding:15px; border-radius:12px; display:none; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"></div>
+        <h2>Сравнение ПК</h2>
+        <textarea id="pcInput" rows="3" placeholder="Например: RTX 3060 vs RTX 4060"></textarea>
+        <button class="btn-blue" onclick="comparePC()">Найти тесты и сравнение</button>
         <button class="back-btn" onclick="showPage('main-menu')">← Назад</button>
     </div>
 
@@ -86,9 +92,8 @@
         }
 
         function updateShopLinks() {
-            const query = document.getElementById('shopSearch').value;
-            const q = encodeURIComponent(query);
-            if(query.length > 0) {
+            const q = encodeURIComponent(document.getElementById('shopSearch').value);
+            if(q) {
                 document.getElementById('wb').href = "https://wildberries.ru" + q;
                 document.getElementById('vek').href = "https://21vek.by" + q;
                 document.getElementById('ozon').href = "https://ozon.ru" + q;
@@ -98,10 +103,10 @@
         }
 
         function comparePC() {
-            const input = document.getElementById('pcInput').value;
-            const res = document.getElementById('pcResult');
-            res.style.display = "block";
-            res.innerHTML = "<b>Анализ:</b> Сравниваем " + input + "... <br><br>Обычно побеждает то устройство, у которого техпроцесс меньше (нм), а частота выше. Для точных тестов рекомендую заглянуть на <i>UserBenchmark</i> или <i>Technical City</i>.";
+            const input = document.getElementById('pcInput').value.trim();
+            if (input) {
+                window.open("https://technical.city" + encodeURIComponent(input), '_blank');
+            }
         }
     </script>
 </body>
