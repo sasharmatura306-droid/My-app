@@ -3,50 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мой Магазин</title>
+    <title>Multi Service App</title>
     <script src="https://telegram.org"></script>
     <style>
-        body { font-family: sans-serif; background-color: #f0f2f5; color: #222; padding: 20px; }
-        .product-card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .product-title { font-size: 18px; font-weight: bold; margin-bottom: 10px; }
-        .links-container { display: flex; flex-direction: column; gap: 8px; }
-        .shop-link { 
-            text-decoration: none; color: white; padding: 10px; border-radius: 8px; 
-            text-align: center; font-size: 14px; font-weight: 500;
+        body { font-family: -apple-system, sans-serif; background: #f0f2f5; padding: 15px; color: #333; }
+        .page { display: none; }
+        .active { display: block; }
+        .menu-btn { 
+            display: block; width: 100%; padding: 18px; margin-bottom: 12px; 
+            background: white; border-radius: 12px; text-decoration: none; 
+            color: #333; font-weight: bold; border: none; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-size: 16px; text-align: left;
         }
-        .ozon { background-color: #005bff; }
-        .wb { background-color: #cb11ab; }
-        .kufar { background-color: #00b012; }
-        .onliner { background-color: #ffcc00; color: black; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .card { padding: 15px; border-radius: 10px; color: white; text-decoration: none; text-align: center; font-weight: bold; font-size: 14px; }
+        
+        /* Цвета брендов */
+        .blue { background: #005bff; } /* Ozon */
+        .pink { background: #cb11ab; } /* WB */
+        .green { background: #00b012; } /* Kufar */
+        .orange { background: #ffcc00; color: black; } /* Onliner */
+        .dark-red { background: #e30613; } /* 21vek */
+        .action-blue { background: #0088cc; }
+        
+        .back-btn { margin-top: 20px; color: #888; border: none; background: none; width: 100%; padding: 10px; }
+        input, textarea { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ccc; margin-bottom: 10px; box-sizing: border-box; }
     </style>
 </head>
 <body>
-    <h2>🛍️ Выберите товар</h2>
 
-    <!-- Товар 1 -->
-    <div class="product-card">
-        <div class="product-title">Пример товара (Смартфон)</div>
-        <div class="links-container">
-            <a href="https://ozon.ru" class="shop-link ozon" target="_blank">Найти на Ozon</a>
-            <a href="https://wildberries.ru" class="shop-link wb" target="_blank">Найти на WB</a>
-            <a href="https://kufar.by" class="shop-link kufar" target="_blank">Найти на Kufar</a>
-            <a href="https://onliner.by" class="shop-link onliner" target="_blank">Найти на Onliner</a>
-        </div>
+    <!-- ГЛАВНОЕ МЕНЮ -->
+    <div id="main-menu" class="page active">
+        <h2 style="text-align: center;">🚀 Мои Сервисы</h2>
+        <button class="menu-btn" onclick="showPage('tickets-page')">✈️ 1. Билеты (Авиа / ЖД)</button>
+        <button class="menu-btn" onclick="window.open('https://tb.by', '_blank')">💵 2. Конвертер (Технобанк)</button>
+        <button class="menu-btn" onclick="showPage('shop-page')">🛍️ 3. Магазины (WB, 21vek, Kufar...)</button>
+        <button class="menu-btn" onclick="showPage('pc-compare')">🖥️ 4. Сравнение ПК</button>
     </div>
 
-    <!-- Товар 2 -->
-    <div class="product-card">
-        <div class="product-title">Второй товар</div>
-        <div class="links-container">
-            <a href="#" class="shop-link ozon">Ссылка на Ozon</a>
-            <a href="#" class="shop-link kufar">Ссылка на Kufar</a>
+    <!-- 1. БИЛЕТЫ -->
+    <div id="tickets-page" class="page">
+        <h3>Где ищем билеты?</h3>
+        <div class="grid">
+            <a href="https://aviasales.ru" target="_blank" class="card action-blue">Aviasales</a>
+            <a href="https://rzd.ru" target="_blank" class="card orange" style="color: white; background: #e21a1a;">РЖД</a>
         </div>
+        <button class="back-btn" onclick="showPage('main-menu')">← Назад</button>
+    </div>
+
+    <!-- 3. МАГАЗИНЫ -->
+    <div id="shop-page" class="page">
+        <h3>Выберите магазин</h3>
+        <input type="text" id="shopSearch" placeholder="Введите товар (напр. Наушники)" oninput="updateShopLinks()">
+        <div class="grid">
+            <a id="wb" href="https://wildberries.ru" target="_blank" class="card pink">Wildberries</a>
+            <a id="vek" href="https://21vek.by" target="_blank" class="card dark-red">21vek.by</a>
+            <a id="ozon" href="https://ozon.ru" target="_blank" class="card blue">Ozon</a>
+            <a id="kufar" href="https://kufar.by" target="_blank" class="card green">Kufar</a>
+            <a id="onliner" href="https://onliner.by" target="_blank" class="card orange">Onliner</a>
+        </div>
+        <p style="font-size: 12px; color: #666; margin-top: 10px;">Введите товар выше, и ссылки обновятся автоматически!</p>
+        <button class="back-btn" onclick="showPage('main-menu')">← Назад</button>
+    </div>
+
+    <!-- 4. СРАВНЕНИЕ ПК -->
+    <div id="pc-compare" class="page">
+        <h3>Сравнение комплектующих</h3>
+        <p>Напишите, что сравнить:</p>
+        <textarea id="pcInput" rows="3" placeholder="RTX 4060 или RTX 3070?"></textarea>
+        <button class="menu-btn action-blue" style="color:white; text-align:center" onclick="comparePC()">Узнать, что лучше</button>
+        <div id="pcResult" style="margin-top:15px; font-size:14px; background:white; padding:15px; border-radius:12px; display:none; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"></div>
+        <button class="back-btn" onclick="showPage('main-menu')">← Назад</button>
     </div>
 
     <script>
-        // Инициализация Telegram WebApp
         const tg = window.Telegram.WebApp;
-        tg.expand(); // Развернуть на весь экран
+        tg.expand();
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        function updateShopLinks() {
+            const query = document.getElementById('shopSearch').value;
+            const q = encodeURIComponent(query);
+            if(query.length > 0) {
+                document.getElementById('wb').href = "https://wildberries.ru" + q;
+                document.getElementById('vek').href = "https://21vek.by" + q;
+                document.getElementById('ozon').href = "https://ozon.ru" + q;
+                document.getElementById('kufar').href = "https://kufar.by" + q;
+                document.getElementById('onliner').href = "https://onliner.by" + q;
+            }
+        }
+
+        function comparePC() {
+            const input = document.getElementById('pcInput').value;
+            const res = document.getElementById('pcResult');
+            res.style.display = "block";
+            res.innerHTML = "<b>Анализ:</b> Сравниваем " + input + "... <br><br>Обычно побеждает то устройство, у которого техпроцесс меньше (нм), а частота выше. Для точных тестов рекомендую заглянуть на <i>UserBenchmark</i> или <i>Technical City</i>.";
+        }
     </script>
 </body>
 </html>
+
