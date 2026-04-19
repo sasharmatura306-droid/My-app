@@ -1,45 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multi App</title>
+    <title>Мой Магазин</title>
     <script src="https://telegram.org"></script>
     <style>
-        body { font-family: sans-serif; background: #f0f2f5; display: flex; flex-direction: column; align-items: center; padding: 20px; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 400px; }
-        .card { background: white; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); cursor: pointer; transition: 0.2s; }
-        .card:active { transform: scale(0.95); }
-        .card i { font-size: 30px; display: block; margin-bottom: 10px; }
-        h3 { margin: 0; font-size: 14px; color: #333; }
+        body { font-family: sans-serif; background-color: #f0f2f5; color: #222; padding: 20px; }
+        .product-card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .product-title { font-size: 18px; font-weight: bold; margin-bottom: 10px; }
+        .links-container { display: flex; flex-direction: column; gap: 8px; }
+        .shop-link { 
+            text-decoration: none; color: white; padding: 10px; border-radius: 8px; 
+            text-align: center; font-size: 14px; font-weight: 500;
+        }
+        .ozon { background-color: #005bff; }
+        .wb { background-color: #cb11ab; }
+        .kufar { background-color: #00b012; }
+        .onliner { background-color: #ffcc00; color: black; }
     </style>
 </head>
 <body>
-    <div class="grid">
-        <div class="card" onclick="window.location.href='https://tb.by'">
-            <i>💰</i><h3>Технобанк</h3>
+    <h2>🛍️ Выберите товар</h2>
+
+    <!-- Товар 1 -->
+    <div class="product-card">
+        <div class="product-title">Пример товара (Смартфон)</div>
+        <div class="links-container">
+            <a href="https://ozon.ru" class="shop-link ozon" target="_blank">Найти на Ozon</a>
+            <a href="https://wildberries.ru" class="shop-link wb" target="_blank">Найти на WB</a>
+            <a href="https://kufar.by" class="shop-link kufar" target="_blank">Найти на Kufar</a>
+            <a href="https://onliner.by" class="shop-link onliner" target="_blank">Найти на Onliner</a>
         </div>
-        <div class="card" onclick="openSearch()">
-            <i>🛍</i><h3>Магазин</h3>
-        </div>
-        <div class="card" onclick="window.location.href='https://aviasales.by'">
-            <i>✈️</i><h3>Билеты</h3>
-        </div>
-        <div class="card" onclick="window.location.href='https://ominds.ru'">
-            <i>🌐</i><h3>Мой сайт</h3>
+    </div>
+
+    <!-- Товар 2 -->
+    <div class="product-card">
+        <div class="product-title">Второй товар</div>
+        <div class="links-container">
+            <a href="#" class="shop-link ozon">Ссылка на Ozon</a>
+            <a href="#" class="shop-link kufar">Ссылка на Kufar</a>
         </div>
     </div>
 
     <script>
-        let tg = window.Telegram.WebApp;
+        // Инициализация Telegram WebApp
+        const tg = window.Telegram.WebApp;
         tg.expand(); // Развернуть на весь экран
-
-        function openSearch() {
-            let query = prompt("Что найти?");
-            if (query) {
-                window.location.href = "https://21vek.by" + encodeURIComponent(query);
-            }
-        }
     </script>
 </body>
 </html>
